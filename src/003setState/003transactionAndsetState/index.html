@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>setState同步异步问题</title>
+</head>
+<body>
+
+<div id="counter-app">
+
+</div>
+
+
+
+
+<script src="./Component.js"></script>
+<script src="./Transaction.js"></script>
+<script src="./Updater.js"></script>
+<script src="./Counter.js"></script>
+
+<script>
+  const counterApp = document.getElementById('counter-app');
+
+  //全局的
+  let batchingStrategy = {
+    isBatchingUpdates:false,//默认是非批量更新模式
+    dirtyComponents:[],// 脏组件 就组件的状态和界面上显示的不一样
+    batchedUpdates(){
+      this.dirtyComponents.forEach(component=>component.updateComponent());
+    }
+  };
+  //全局的
+  let transaction = new Transaction([
+    {
+      initialize(){
+        batchingStrategy.isBatchingUpdates = true;//开始批量更新模式
+      },
+      close(){
+        batchingStrategy.isBatchingUpdates = false;
+        batchingStrategy.batchedUpdates();//进行批量更新，把所有的脏组件根据自己的状态和属性重新渲染
+      }
+    },
+    //可以传多个初始化的方法，跟结束方法的对象
+    {
+      initialize(){
+        console.log('initialize1');
+      },
+      close(){
+        console.log('close1');
+      }
+    }
+  ]);
+  //全局的
+  window.trigger = function(event,method){
+    let component = event.target.component;//event.target=this.domElement
+    //完美搞定context
+    transaction.perform(component[method].bind(component));
+    //  perform的时候，会遍历new Transaction的时候穿进去的数组，
+    //  先执行所有的initialize，再执行目标事件的方法，最后再执行close方法
+  };
+
+  new Counter({name:'这是属性'}).mount(counterApp);
+</script>
+
+</body>
+</html>
