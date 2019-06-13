@@ -1,11 +1,14 @@
-
 import React, { Component } from 'react'
 
+/*
+* 原理就是在shouldComponentUpdate里浅比较
+* */
 export default class PureComponent extends Component {
-  isPureComponent = true
+  isPureComponent = true;
+
   //传入新的属性对象和状态对象，然后返回一个是否需要更新的boolean值
   shouldComponentUpdate(nextProps,nextState){
-    return !shallowEqual(this.props,nextProps)||!shallowEqual(this.state,nextState);
+    return !shallowEqual(this.props, nextProps)||!shallowEqual(this.state, nextState);
   }
 }
 

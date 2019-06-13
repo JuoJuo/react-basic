@@ -1,13 +1,5 @@
 import React, { PureComponent } from 'react';
 
-class Counter extends PureComponent{
-  render(){
-    console.log('Counter render');
-    return <div>{this.props.number}</div>
-  }
-}
-
-
 export default class App extends PureComponent {
   constructor(props){
     super(props);
@@ -26,6 +18,7 @@ export default class App extends PureComponent {
     return (
       <div>
         <Title title={this.state.title}/>
+        {/*<Title1 title={this.state.title}/>*/}
         <Counter number={this.state.number}/>
         <input ref={this.inputRef}/>
         <button onClick={this.add}>+</button>
@@ -34,6 +27,23 @@ export default class App extends PureComponent {
   }
 }
 
+class Counter extends PureComponent{
+  render(){
+    console.log('Counter render');
+    return <div>{this.props.number}</div>
+  }
+}
+
+/*
+ * 函数式组件不管props改没有，都render了
+ */
+function Title(props){
+  console.log('Title render ');
+  return <div>{props.title}</div>
+}
+/*
+ * 继承PureComponent方式，我们发现它是不会render的，因为title没变过
+ */
 class Title1 extends PureComponent{
   render(){
     console.log('Title render');
@@ -41,12 +51,10 @@ class Title1 extends PureComponent{
   }
 }
 
-function Title(props){
-  console.log('Title render ');
-  return <div>{props.title}</div>
-}
 
-function memo(FuncComponent){
+//<FuncComponent {...this.props}/> 和 FuncComponent(this.props);等价
+
+/*function memo(FuncComponent){
   return class  extends PureComponent{
     render(){
       return <FuncComponent {...this.props}/>
@@ -62,4 +70,4 @@ function memo2(FuncComponent){
   }
 }
 
-Title = memo2(Title);
+Title = memo(Title);*/
