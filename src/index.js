@@ -10,6 +10,5 @@ import ReactDOM from 'react-dom';
 // import Test1 from './010context/2.NewContext.js';
 import Test1 from './100.redux/component/Counter.js';
 
-
 ReactDOM.render(<Test1/> , document.getElementById('root'));
 
