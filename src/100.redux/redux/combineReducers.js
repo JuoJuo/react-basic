@@ -20,5 +20,6 @@ export default function(reducers){
       const nextStateForKey = reducer(previousStateForKey, action);
       nextState[key] = nextStateForKey;
     }
+    return nextState;
   }
 }
