@@ -1,29 +1,22 @@
 import React, {Component} from "react";
-import store from '../store';
-import { bindActionCreators } from '../redux';
+import {connect} from '../react-redux';
 import actions from '../store/actions/counter';
 
-let boundActions = bindActionCreators(actions, store.dispatch);
-
-export default class Counter extends Component {
-
-  constructor() {
-    super();
-    this.state = {
-      number: 0,
-    };
-  }
-  componentDidMount() {
-    store.subscribe(() => {
-      console.log(store.getState());
-      this.setState({number: store.getState().counter.number});
-    });
-  }
-
+class Counter extends Component {
   render() {
     return <div>
-      <p>{this.state.number}</p>
-      <button onClick={ () => boundActions.increment(2)}>+</button>
+      <p>{this.props.counter.number}</p>
+      <button onClick={() => this.props.increment(2)}>+</button>
     </div>;
   }
 }
+
+// connect（跑1，喷2）第二个参数，既可以有很多种类型这里再模拟一种，mapDispatchToProps
+const mapDispatchToProps = (dispatch) => {
+  return {
+    increment: (...args) => dispatch(actions.increment(...args)),
+    decrement: (...args) => dispatch(actions.decrement(...args))
+  }
+};
+
+export default connect(state => state, actions)(Counter);
