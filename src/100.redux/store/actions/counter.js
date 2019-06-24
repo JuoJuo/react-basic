@@ -6,5 +6,12 @@ export default {
   },
   decrement() {
     return {type: types.DECREMENT};
+  },
+  asyncIncrement(value) {
+    return function (dispatch, getState) {
+      setTimeout(() => {
+        dispatch({type: types.ASYNC_INCREMENT, payload: value});
+      }, 1000);
+    }
   }
 }

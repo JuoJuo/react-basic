@@ -1,5 +1,5 @@
 // 写个老语法，帮助理解
-export default function logger2({getState}){
+export default function logger2({dispatch: fullwrappedDispatch, getState}){
     return function(dispatch){
         return function(action){
             console.log('老状态2',getState());
