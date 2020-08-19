@@ -21,3 +21,8 @@ class Picture extends Component {
 }
 // export default <MouseTracker render={data=><Picture {...props} {...data}/>}/>;
 export default withMouseTracker(Picture);
+
+// 几个月后看，其实就相当于vue里的slot，MouseTracker组件里需要插入别的组件。
+// 我们就让MouseTracker在需要的地方，自己调用别人传过来的函数，返回需要插入的组件，并且传入相应的props执行
+
+// React.lazy() + suspense
