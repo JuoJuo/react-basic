@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useReducer } from 'react';
 
-
-
-
+// ps不传依赖项，默认是每次都执行的
 function Counter() {
   const [number, setNumber] = useState(0);
   // useEffect可以完成componentDidMount componentDidUpdate的工作。
